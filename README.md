@@ -19,11 +19,18 @@ Terraform uses the **Docker Provider** to automate the following tasks:
 
 ```mermaid
 flowchart TD;
-    A["Terraform Configuration (main.tf, variables.tf)"] -->|Uses| B["Docker Provider"];
-    B -->|Connects to| C["Docker Daemon (Localhost)"];
-    C -->|Builds| D["Docker Image (Nginx + HTML)"];
-    C -->|Runs| E["Docker Container (Web Server)"];
-    E -->|Serves| F["Browser (http://localhost:8080)"];
+    subgraph Terraform["Terraform Layer"]
+        A["main.tf"] --> B["variables.tf"]
+        B --> C["Docker Provider"]
+    end
+
+    subgraph Docker["Docker Engine Layer"]
+        C --> D["Docker Daemon (Localhost)"]
+        D --> E["Docker Image (Nginx + HTML)"]
+        D --> F["Docker Container (Web Server)"]
+    end
+
+    F -->|Serves| G["Browser\n(http://localhost:8080)"]
 ```
 
 ---
